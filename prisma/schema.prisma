@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Image {
+  id         String   @id @default(cuid())
+  url        String
+  s3Key      String
+  section    ImageSection
+  orderIndex Int      @default(0)
+  albumId    String?
+  createdAt  DateTime @default(now())
+}
+
+enum ImageSection {
+  HERO
+  SHOWCASE
+  GALLERY
+  ALBUM
+}
+
+model TextContent {
+  id        String   @id @default(cuid())
+  key       String   @unique  // e.g. ABOUT_TITLE, ABOUT_TEXT
+  value     String
+  updatedAt DateTime @updatedAt
+}
